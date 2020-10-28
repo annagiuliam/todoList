@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="syle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>To-do List</title>
+</head>
+<body>
+    <div id="app-container">
+        <div id="sidebar">
+            <div class="header">
+                <h2>To dos</h2>
+            </div>
+            <div id="list-container">
+                <button id="new-task
+                -btn">New Task</button>
+                <ul id="tasks-list">
+                    <li>all</li>
+                    <li>category 1</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="container">
+            <div class="header">
+                <h2>This is the right side container</h2>
+            </div>
+            <div id="new-task
+            -input"> 
+                <form action="#" name="task
+                -form">     
+                    <div id="new-task
+                    -field">
+                        <input type="text" placeholder="Add Task Title" id="task
+                        -title-input">            
+                        <!-- <button type="button" value="submit" id="form-submit">Submit</button> -->
+                        
+                    </div>                     
+                    <div id="new-task
+                    -options">
+                        <input  type="date" min="2020-10-27" class="input-date" id="date-input">
+                        <input type="text" placeholder="Add category" id="category-input"> 
+                        <select class="input" id="priority-select">
+                            <option value="Default" selected="true">Default</option>
+                            <!-- <option value="Low">Low</option>
+                            <option value="Medium">Medium</option> -->
+                            <option value="High">High</option>
+                        </select>
+                        
+                    </div>  
+                    <div id="description-field">
+                        <textarea class="textarea" rows="6" placeholder="Add a description"></textarea>
+                    </div> 
+                    
+                    <div id="new-task
+                    -btns">
+                        <button type="submit" id="submit-task
+                        -btn">
+                            <i class="fa fa-check"></i>
+                        </button>
+                        
+                        <button id="reset-btn">
+                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </form>
+                 
+                
+            </div>
+            <ul id="tasks-container">
+                <!-- <div>This is a task</div>
+                <div>This is another task</div> -->
+                </ul>
+
+        </div>
+        
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
