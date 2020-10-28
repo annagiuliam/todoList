@@ -1,6 +1,6 @@
 import {createNewTask} from "./tasks";
 
-function createDomEle(parent, type, attributes, text = null) {
+function createDomEle(parent, type, attributes, text) {
     const parentContainer = document.querySelector(parent);
     const element = document.createElement(type);
     
@@ -11,16 +11,16 @@ function createDomEle(parent, type, attributes, text = null) {
                 element.setAttribute(key, value);                
                 } else {                     
                    for (let i = 0; i < value.length; i++) {
-                        element.classList.add(value[i]);
-                   
-                    }       
-            
-            }
-            
+                        if (value[i] != "") {                            
+                        element.classList.add(value[i]); 
+                        }
+                                      
+                    }           
+            }            
         };
     }
 
-    if (text != null) {
+    if (text != "") {
         element.textContent = text;
     } else {
         element.textContent = "";
@@ -53,13 +53,50 @@ addNewListener("#reset-btn", "click", resetForm);
  }
 
  function displayTask(task) {
-     createDomEle("#tasks-container",
-     "li",
-     {class : ["task", task.category],   
-     id : displayTask.title,     
-     });
+        createDomEle("#tasks-container",
+        "li",
+        {class : ["task", formatString(task.category)],   //RIPRENDI DA QUI, FORMATSTRING NON FUNGE
+        id : formatString(task.title),     
+        });
 
-     //createTask
- }
+        createDomEle(`#${formatString(task.title)}`,
+        "div",
+        { class : ["task-details"],
+            id : `details-${formatString(task.title)}`
+        });
+
+        // createDomEle(`#${task.title}`,
+        // "div",
+        // { class : ["task-details"],
+        //     id : `info-${task.title}`
+        // });
+
+        // createDomEle(`#details-${task.title}`,
+        // "div",
+        // {id : `titleDiv-${task.title}` },
+        // task.title);
+
+        // console.log(task.category);
+
+        // if (task.category != "") {
+        //     createDomEle(`#details-${task.title}`,
+        //     "div",
+        //     {id : `category-${task.title}` },
+        //     task.category);
+        // }
+     
+
+        //  displayTaskInfo(task);
+    }
+
+    function formatString(string) {
+        if (string != "") {
+            
+            return string.toLowerCase().split(' ').join('-');
+        } else { return ""};
+        
+        //return string.trim();
+        //.replace(/\s/g, '-')
+    }
 
 export { createDomEle, displayTask }
