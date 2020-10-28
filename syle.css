@@ -1,0 +1,29 @@
+#app-container {
+    display: flex;
+    flex-direction: row;
+    justify-items: left;
+    align-items: baseline;
+}
+
+.header {
+ background-color: aqua;
+}
+
+#list-container {
+    background-color: yellowgreen;
+}
+
+#sidebar { 
+    background-color: teal;
+}
+
+#container {
+    background-color: thistle;
+}
+
+#tasks-container {
+    background-color: tomato;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
