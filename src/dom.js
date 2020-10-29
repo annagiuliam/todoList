@@ -30,32 +30,39 @@ function createDomEle(parent, type, attributes, text) {
 }
 
 function addNewListener(target, event, action) {
+    
     const newTargets = document.querySelectorAll(target);
     newTargets.forEach(target => 
         target.addEventListener(event, action));
+    
 }
+addNewListener("#reset-btn", "click", resetForm);
 
-//addNewListener("#new-task-btn", "click", alert("hello"));
-addNewListener("#submit-task-btn", "click", () => {
-    createNewTask();
-    resetForm();
+const form  = document.querySelector('form');
+form.addEventListener('submit', function (event) {    
+    if (titleInput.value != "") {        
+              createNewTask();
+              resetForm();
+    }    
 });
 
-addNewListener("#reset-btn", "click", resetForm);
+  
+
 
 // const submitBtn = document.querySelector("#submit-task-btn");
 // submitBtn.addEventListener("click", () => {
 //     console.log(submitBtn);
 // });
- function resetForm() {
-     const form = document.querySelector("form");
-     form.reset();
- }
 
- function displayTask(task) {
+function resetForm() {
+    const form = document.querySelector("form");
+    form.reset();
+}
+
+function displayTask(task) {
         createDomEle("#tasks-container",
         "li",
-        {class : ["task", formatString(task.category)],   //RIPRENDI DA QUI, FORMATSTRING NON FUNGE
+        {class : ["task", formatString(task.category)],   
         id : formatString(task.title),     
         });
 
@@ -65,7 +72,7 @@ addNewListener("#reset-btn", "click", resetForm);
             id : `details-${formatString(task.title)}`
         });
 
-        // createDomEle(`#${task.title}`,
+        // createDomEle(`#${task.title}`, //riprendi da qui, aggiungi contenuto tasks a dom
         // "div",
         // { class : ["task-details"],
         //     id : `info-${task.title}`
@@ -87,16 +94,16 @@ addNewListener("#reset-btn", "click", resetForm);
      
 
         //  displayTaskInfo(task);
-    }
+}
 
-    function formatString(string) {
-        if (string != "") {
-            
-            return string.split(' ').join('-');
-        } else { return ""};
+function formatString(string) {
+    if (string != "") {
         
-        //return string.trim();
-        //.replace(/\s/g, '-')
-    }
+        return string.split(' ').join('-');
+    } else { return ""};
+    
+    //return string.trim();
+    //.replace(/\s/g, '-')
+}
 
 export { createDomEle, displayTask }

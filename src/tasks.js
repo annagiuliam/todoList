@@ -21,8 +21,7 @@ function createNewTask() {
     const newTask = taskFactory(title, category, dueDate, priority, description);
     const list = taskList.list;
 
-    console.log(newTask.title);
-    console.log(listIncludesTask(list, newTask.title));
+    
     if (listIncludesTask(list, newTask.title)) {
         alert("You already created this task");
     } else {
