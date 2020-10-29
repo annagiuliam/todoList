@@ -92,7 +92,7 @@ addNewListener("#reset-btn", "click", resetForm);
     function formatString(string) {
         if (string != "") {
             
-            return string.toLowerCase().split(' ').join('-');
+            return string.split(' ').join('-');
         } else { return ""};
         
         //return string.trim();
