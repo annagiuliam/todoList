@@ -28,14 +28,25 @@
     justify-content: left;
 }
 
- #task-title-input{
-    
-    width: 100%;
-    
+ #task-title-input{    
+    width: 100%;    
     box-sizing: border-box;
   } 
 
   #task-title-input.invalid {
     border: 1px solid red;
+  }
+
+  .task-info {
+      display : flex;
+      flex-direction: row;
+      justify-content: space-between;
+  }
+
+  .dueDate-span {
+      margin-right : 15px;
+  }
+  .dueDate-icon-span {
+      margin-right: 10px;
   }
    
