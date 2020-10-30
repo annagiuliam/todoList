@@ -1,5 +1,3 @@
-//import {  displayTask} from "./dom";
-
 const taskFactory = (title, category, dueDate, priority, description) => {
 
     return { title, category, dueDate, priority, description }
@@ -23,19 +21,8 @@ const newTask = () => {
     
 }
 
-function verifyTask() {
-    const list = taskList.list;
-    const task = newTask();
-    if (listIncludesTask(list, task.title)) {
-        alert("You already created this task");
-    } else {
-        list.push(task);
-        //displayTask(task);
-        //console.log(task);
-    }
-}
 
-function listIncludesTask(list, title) {  
+function taskIsValid(list, title) {  
     if (list.length === 0) {     
         return false;
    } else {
@@ -44,4 +31,6 @@ function listIncludesTask(list, title) {
     
 }
 
-export { newTask, verifyTask }
+
+
+export { newTask, taskIsValid, taskList}

@@ -1,5 +1,5 @@
 
-//import {newTask, verifyTask} from "./tasks";
+
 
 function createDomEle(parent, type, attributes, text) {
     const parentContainer = document.querySelector(parent);
@@ -39,6 +39,87 @@ function addNewListener(target, event, action) {
 }
 addNewListener("#reset-btn", "click", resetForm);
 
+function displayTask(task) {
+    
+    createDomEle("#tasks-container",
+    "li",
+    {class : ["task", formatString(task.category)],   
+    id : formatString(task.title),     
+    });
+
+        createDomEle(`#${formatString(task.title)}`,
+        "div",
+        { class : ["task-details"],
+            id : `details-${formatString(task.title)}`
+        });
+
+            createDomEle(`#details-${formatString(task.title)}`, 
+            "div",
+            { class : ["task-info"],
+                id : `info-${formatString(task.title)}`
+            });
+
+                createDomEle(`#info-${formatString(task.title)}`, 
+                "span",
+                { class : ["task-title"],
+                    id : `title-${formatString(task.title)}`
+                },
+                capitalize(task.title)  //text content
+                );
+                
+                if (task.dueDate != "") {
+                    createDomEle(`#info-${formatString(task.title)}`,
+                    "span",
+                    {class : ["dueDate-span"],
+                    id : `dueDate-span-${formatString(task.title)}` }
+                    );
+
+                    createDomEle(`#dueDate-span-${formatString(task.title)}`,
+                    "span",
+                    {class : ["dueDate-icon-span"],
+                    id : `dueDate-icon-span-${task.title}` },
+                    );
+
+                    createDomEle(`#dueDate-icon-span-${task.title}`,
+                    "i",
+                    {class : ["fa", "fa-calendar"]},
+                    );
+
+                    createDomEle(`#dueDate-span-${formatString(task.title)}`,
+                    "span",
+                    {id : `dueDate-text-${task.title}` },
+                    task.dueDate);
+
+                    // ADD CATEGORY AND PRIORITY FIELDS
+                    // SPLIT METHOD IN SMALLER METHODS
+                }
+                
+
+                console.log(task.dueDate);
+
+    // if (task.category != "") {
+    //     createDomEle(`#details-${task.title}`,
+    //     "div",
+    //     {id : `category-${task.title}` },
+    //     task.category);
+    // }
+ 
+
+    //  displayTaskInfo(task);
+}
+
+function formatString(string) {
+    if (string != "") {
+        
+        return string.split(' ').join('-');
+    } else { return ""};
+  
+}
+
+function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
 // const FormValidation = (() => {
     
 //     const form = document.querySelector("form");
@@ -65,4 +146,4 @@ function resetForm() {
 
 
 
-export { resetForm, createDomEle }
+export { resetForm, createDomEle, displayTask }
