@@ -1,6 +1,43 @@
 import { compareAsc, format } from 'date-fns';
 import { createDomEle } from "./dom";
 
+function displayTask(task) {
+    createDomEle("#tasks-container",
+    "li",
+    {class : ["task", formatString(task.category)],   
+    id : formatString(task.title),     
+    });
+
+    createDomEle(`#${formatString(task.title)}`,
+    "div",
+    { class : ["task-details"],
+        id : `details-${formatString(task.title)}`
+    });
+
+    // createDomEle(`#${task.title}`, //riprendi da qui, aggiungi contenuto tasks a dom
+    // "div",
+    // { class : ["task-details"],
+    //     id : `info-${task.title}`
+    // });
+
+    // createDomEle(`#details-${task.title}`,
+    // "div",
+    // {id : `titleDiv-${task.title}` },
+    // task.title);
+
+    // console.log(task.category);
+
+    // if (task.category != "") {
+    //     createDomEle(`#details-${task.title}`,
+    //     "div",
+    //     {id : `category-${task.title}` },
+    //     task.category);
+    // }
+ 
+
+    //  displayTaskInfo(task);
+}
+
 //const container = document.querySelector("#project-container")
 
 

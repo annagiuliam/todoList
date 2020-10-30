@@ -1,4 +1,4 @@
-import {displayTask} from "./dom";
+//import {displayTask} from "./dom";
 
 const taskFactory = (title, category, dueDate, priority, description) => {
 

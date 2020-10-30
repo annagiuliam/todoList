@@ -38,72 +38,36 @@ function addNewListener(target, event, action) {
 }
 addNewListener("#reset-btn", "click", resetForm);
 
-const form  = document.querySelector('form');
-form.addEventListener('submit', function (event) {    
-    if (titleInput.value != "") {        
-              createNewTask();
-              resetForm();
+const FormValidation = (() => {
+
+    const form = document.querySelector("form");
+    const titleInput = document.querySelector("#task-title-input");
+    form.onsubmit = function(){
+        
+        if (titleInput.value != "") {        
+            createNewTask();
+            resetForm();
+        } else {            
+            titleInput.classList.add("invalid")
+            alert("Enter task title");
+        }
     }    
-});
-
-  
-
-
-// const submitBtn = document.querySelector("#submit-task-btn");
-// submitBtn.addEventListener("click", () => {
-//     console.log(submitBtn);
-// });
+})();
 
 function resetForm() {
     const form = document.querySelector("form");
+    const titleInput = document.querySelector("#task-title-input");
+    titleInput.classList.toggle("invalid");
     form.reset();
 }
 
-function displayTask(task) {
-        createDomEle("#tasks-container",
-        "li",
-        {class : ["task", formatString(task.category)],   
-        id : formatString(task.title),     
-        });
 
-        createDomEle(`#${formatString(task.title)}`,
-        "div",
-        { class : ["task-details"],
-            id : `details-${formatString(task.title)}`
-        });
-
-        // createDomEle(`#${task.title}`, //riprendi da qui, aggiungi contenuto tasks a dom
-        // "div",
-        // { class : ["task-details"],
-        //     id : `info-${task.title}`
-        // });
-
-        // createDomEle(`#details-${task.title}`,
-        // "div",
-        // {id : `titleDiv-${task.title}` },
-        // task.title);
-
-        // console.log(task.category);
-
-        // if (task.category != "") {
-        //     createDomEle(`#details-${task.title}`,
-        //     "div",
-        //     {id : `category-${task.title}` },
-        //     task.category);
-        // }
-     
-
-        //  displayTaskInfo(task);
-}
 
 function formatString(string) {
-    if (string != "") {
-        
+    if (string != "") {        
         return string.split(' ').join('-');
     } else { return ""};
     
-    //return string.trim();
-    //.replace(/\s/g, '-')
 }
 
-export { createDomEle, displayTask }
+export { createDomEle }
