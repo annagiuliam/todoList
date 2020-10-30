@@ -1,5 +1,32 @@
 import { compareAsc, format } from 'date-fns';
-import { createDomEle } from "./dom";
+import { resetForm, createDomEle } from "./dom";
+import {newTask, verifyTask} from "./tasks"
+
+
+const FormValidation = (() => {
+    
+    const form = document.querySelector("form");
+    const titleInput = document.querySelector("#task-title-input");
+        form.onsubmit = function(){                  
+            if (titleInput.value != "") {        
+                manageTask();                
+            } else {            
+                titleInput.classList.add("invalid")
+                alert("Enter task title");
+            }
+        }    
+})();
+
+function manageTask() {
+    const title = document.querySelector("#task-title-input").value.trim().toLowerCase();
+    newTask();
+    verifyTask();
+    resetForm();
+    const task = newTask();
+    //console.log(task); //RICOMINCIA DA QUI, TITLE IS EMPTY, BUT WORKS LOGGING IT FROM TASKS
+    //console.log(title);
+    //displayTask(newTask());
+}
 
 function displayTask(task) {
     createDomEle("#tasks-container",
@@ -38,6 +65,15 @@ function displayTask(task) {
     //  displayTaskInfo(task);
 }
 
+function formatString(string) {
+    if (string != "") {
+        
+        return string.split(' ').join('-');
+    } else { return ""};
+  
+}
+//console.log(taskList.list);
+
 //const container = document.querySelector("#project-container")
 
 
@@ -55,3 +91,4 @@ function displayTask(task) {
 //   Mon Jul 10 1989 00:00:00,
 //   Sun Jul 02 1995 00:00:00
 // ]
+

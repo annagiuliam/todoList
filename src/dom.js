@@ -1,4 +1,5 @@
-import {createNewTask} from "./tasks";
+
+//import {newTask, verifyTask} from "./tasks";
 
 function createDomEle(parent, type, attributes, text) {
     const parentContainer = document.querySelector(parent);
@@ -38,36 +39,30 @@ function addNewListener(target, event, action) {
 }
 addNewListener("#reset-btn", "click", resetForm);
 
-const FormValidation = (() => {
-
-    const form = document.querySelector("form");
-    const titleInput = document.querySelector("#task-title-input");
-    form.onsubmit = function(){
-        
-        if (titleInput.value != "") {        
-            createNewTask();
-            resetForm();
-        } else {            
-            titleInput.classList.add("invalid")
-            alert("Enter task title");
-        }
-    }    
-})();
+// const FormValidation = (() => {
+    
+//     const form = document.querySelector("form");
+//     const titleInput = document.querySelector("#task-title-input");
+//         form.onsubmit = function(){        
+//             if (titleInput.value != "") {        
+//                 newTask();
+                
+//                 verifyTask();
+//                 resetForm();
+//             } else {            
+//                 titleInput.classList.add("invalid")
+//                 alert("Enter task title");
+//             }
+//         }    
+// })();
 
 function resetForm() {
     const form = document.querySelector("form");
-    const titleInput = document.querySelector("#task-title-input");
-    titleInput.classList.toggle("invalid");
     form.reset();
 }
 
 
 
-function formatString(string) {
-    if (string != "") {        
-        return string.split(' ').join('-');
-    } else { return ""};
-    
-}
 
-export { createDomEle }
+
+export { resetForm, createDomEle }
