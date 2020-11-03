@@ -26,10 +26,11 @@
     display: flex;
     flex-direction: column;
     justify-content: left;
+    width: 100%;
 }
 
  #task-title-input{    
-    width: 100%;    
+    width: 75%;    
     box-sizing: border-box;
   } 
 
@@ -37,16 +38,43 @@
     border: 1px solid red;
   }
 
-  .task-info {
+  .task-head, .task-extra {
       display : flex;
       flex-direction: row;
+      flex-wrap: wrap;
       justify-content: space-between;
+      /* flex: 1 1 auto; */
+      margin-right: 15px;
   }
 
-  .dueDate-span {
+  /* .dueDate-span {
       margin-right : 15px;
-  }
+      
+  } */
+textarea {
+    white-space: pre-wrap;
+}
+
+input {
+    white-space: pre-wrap;
+}
+  
+
+  /* .title-span {
+      width: 40%;
+  } */
   .dueDate-icon-span {
       margin-right: 10px;
   }
+
+  .dueDate-span {
+      margin-right: 20px;
+      margin-left: 15px;
+  }
+  .description-span {
+    /* margin-right : 15px; */
+    margin-left: 15px;
+    width: 40%;
+      
+}
    
