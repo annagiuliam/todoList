@@ -38,19 +38,7 @@
     border: 1px solid red;
   }
 
-  .task-head, .task-extra {
-      display : flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      /* flex: 1 1 auto; */
-      margin-right: 15px;
-  }
-
-  /* .dueDate-span {
-      margin-right : 15px;
-      
-  } */
+  
 textarea {
     white-space: pre-wrap;
 }
@@ -60,21 +48,40 @@ input {
 }
   
 
-  /* .title-span {
-      width: 40%;
-  } */
-  .dueDate-icon-span {
+  
+i {
       margin-right: 10px;
-  }
+}
 
-  .dueDate-span {
-      margin-right: 20px;
-      margin-left: 15px;
-  }
-  .description-span {
-    /* margin-right : 15px; */
-    margin-left: 15px;
-    width: 40%;
-      
+.task {
+    display : grid;
+    grid-template-columns: 5% 30% 30% 25% 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: "checkbox title title date prio"
+                        ". description description category category"
+}
+
+.task-checkbox {
+    grid-area: checkbox;
+}
+
+.task-title {
+    grid-area: title;
+}
+
+.task-dueDate {
+    grid-area : date;
+}
+
+.task-priority {
+    grid-area: prio;
+}
+
+.task-description {
+    grid-area: description;
+}
+
+.task-category {
+    grid-area : category;
 }
    
