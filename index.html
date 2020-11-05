@@ -14,10 +14,13 @@
                 <h2>To dos</h2>
             </div>
             <div id="list-container">
-                <button id="new-task-btn">New Task</button>
+                
                 <ul id="tasks-list">
-                    <li>all</li>
-                    <li>category 1</li>
+                    <li class="task-li" id="all">All</li>
+                    <li class="task-li" id="high-prio">High Priority</li>
+                    <br>
+                    
+                    
                 </ul>
             </div>
         </div>
@@ -37,7 +40,7 @@
                     <div id="new-task-options">
                         <input  type="date" min="2020-10-27" class="input-date" id="date-input">
                         <input type="text" placeholder="Add category" id="category-input"> 
-                        <select class="input" id="priority-select">
+                        Priority:  <select class="input" id="priority-select"> 
                             <option value="Default" selected="true">Default</option>
                             <!-- <option value="Low">Low</option>
                             <option value="Medium">Medium</option> -->
