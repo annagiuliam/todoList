@@ -19,6 +19,7 @@
 
 #container {
     background-color: thistle;
+    width: 80%;
 }
 
 #tasks-container {
@@ -49,13 +50,14 @@ input {
   
 
   
-i {
+.priority-icon-span, .dueDate-icon-span, .category-icon-span {
       margin-right: 10px;
+      margin-left: 10px;
 }
 
 .task {
     display : grid;
-    grid-template-columns: 5% 30% 30% 25% 1fr;
+    grid-template-columns: 5% 30% 30% 150px 50px;
     grid-template-rows: auto;
     grid-template-areas: "checkbox title title date prio"
                         ". description description category category"
