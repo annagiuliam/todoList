@@ -1,4 +1,4 @@
-
+import { format } from 'date-fns';
 
 
 function createDomEle(parent, type, attributes, text) {
@@ -102,8 +102,10 @@ function addDueDate(task, taskTitle) {
     createDomEle(`#dueDate-div-${taskTitle}`,
         "span",
         {id : `dueDate-text-${taskTitle}` },
-        task.dueDate
+        formatDate(task.dueDate)
+        //task.dueDate
     );
+    console.log(formatDate(task.dueDate));
 }
 
 function addPriority(task, taskTitle) {
@@ -171,9 +173,15 @@ function formatString(string) {
   
 }
 
+function formatDate(date) {
+    const dateInfo = date.split("-");
+    const formDate = format(new Date(dateInfo[0], dateInfo[1] - 1, dateInfo[2]), "PP");
+    return formDate;
+}
+
 function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+}
 
 // const FormValidation = (() => {
     

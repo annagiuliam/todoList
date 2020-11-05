@@ -1,4 +1,4 @@
-//import { compareAsc, format } from 'date-fns';
+
 import { resetForm, createDomEle, displayTask } from "./dom";
 import {newTask, taskIsValid, taskList} from "./tasks"
 
