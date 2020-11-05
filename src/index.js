@@ -1,6 +1,6 @@
 
-import { resetForm, createDomEle, displayTask } from "./dom";
-import {newTask, taskIsValid, taskList} from "./tasks"
+import { resetForm, createDomEle, displayTask, displayCategory } from "./dom";
+import {newTask, taskIsValid, taskList, sortByCategory} from "./tasks"
 
 
 const FormValidation = (() => {
@@ -25,11 +25,14 @@ function manageTask() {
     } else {
         list.push(task);
         displayTask(task);
+        displayCategory(task)
+        
     }
-    
-    
+     
     resetForm(); 
 }
+
+
 
 
 //console.log(taskList.list);

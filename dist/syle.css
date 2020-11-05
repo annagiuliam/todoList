@@ -50,21 +50,22 @@ input {
   
 
   
-.priority-icon-span, .dueDate-icon-span, .category-icon-span {
+.dueDate-icon-span, .category-icon-span {
       margin-right: 10px;
       margin-left: 10px;
 }
 
 .task {
     display : grid;
-    grid-template-columns: 5% 30% 30% 150px 50px;
+    grid-template-columns: 5% 5% 30% 30% 1fr;
     grid-template-rows: auto;
-    grid-template-areas: "checkbox title title date prio"
-                        ". description description category category"
+    grid-template-areas: "checkbox prio title title date"
+                        ". . description description category"
 }
 
 .task-checkbox {
     grid-area: checkbox;
+    justify-self: center;
 }
 
 .task-title {
@@ -77,6 +78,7 @@ input {
 
 .task-priority {
     grid-area: prio;
+    justify-self: center;
 }
 
 .task-description {
@@ -85,5 +87,10 @@ input {
 
 .task-category {
     grid-area : category;
+}
+
+.task-li:hover {
+    cursor : pointer;
+    background-color: white;
 }
    

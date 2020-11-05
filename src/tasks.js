@@ -31,6 +31,28 @@ function taskIsValid(list, title) {
     
 }
 
+function sortByCategory(e) {
+    const cat = e.target.id;
+    const list = taskList.list;
+    
+        const filteredList = list.filter(task => {
+         return task.category === cat;
+       });
+    
+       return filteredList;
+   
+}
+
+function sortByPriority() {
+    const list = taskList.list;
+    
+        const filteredList = list.filter(task => {
+         return task.priority === "high";
+       });
+    
+       return filteredList;
+}
 
 
-export { newTask, taskIsValid, taskList}
+
+export { newTask, taskIsValid, taskList, sortByCategory, sortByPriority}

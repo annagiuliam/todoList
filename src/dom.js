@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { taskList, newTask, sortByCategory, sortByPriority} from './tasks';
 
 
 function createDomEle(parent, type, attributes, text) {
@@ -30,14 +31,21 @@ function createDomEle(parent, type, attributes, text) {
     parentContainer.appendChild(element); 
 }
 
-//// functin in use???
 function addNewListener(target, event, action) {
     
     const newTargets = document.querySelectorAll(target);
     newTargets.forEach(target => 
-        target.addEventListener(event, action));
+    target.addEventListener(event, action));
     
 }
+
+
+const categoryListener = (() => {
+    addNewListener("#all", "click", function(e) {
+        sortTasks(e);
+    })
+})();
+
 
 function displayTask(task) {
     const taskTitle = formatString(task.title);
@@ -48,8 +56,7 @@ function displayTask(task) {
     addDueDate(task, taskTitle);
     addPriority(task,taskTitle);
     addDescription(task, taskTitle);
-    addCategory(task, taskTitle);
-    
+    addCategory(task, taskTitle);  
     
     
 }
@@ -105,7 +112,7 @@ function addDueDate(task, taskTitle) {
         formatDate(task.dueDate)
         //task.dueDate
     );
-    console.log(formatDate(task.dueDate));
+    
 }
 
 function addPriority(task, taskTitle) {
@@ -174,15 +181,63 @@ function formatString(string) {
 }
 
 function formatDate(date) {
-    const dateInfo = date.split("-");
-    const formDate = format(new Date(dateInfo[0], dateInfo[1] - 1, dateInfo[2]), "PP");
-    return formDate;
+    if (date != "") {
+        const dateInfo = date.split("-");
+        const formDate = format(new Date(dateInfo[0], dateInfo[1] - 1, dateInfo[2]), "PP");
+        return formDate;
+    }
+    
 }
 
 function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+function displayCategory(task) {
+    if ( task.category != "" && !document.querySelector(`#${task.category}`)) {
+        createDomEle("#tasks-list",
+        "li",
+        { class : ["task-li"],
+       id : formatString(task.category)},       
+        capitalize(task.category)
+        );
+
+        addNewListener(".task-li", "click", function(e) {
+          sortTasks(e);  
+        })
+    }
+    // } else {
+    //     console.log("not found");
+    // }
+}
+
+
+function sortTasks(e) {
+    const list = taskList.list;
+    const categoryTasks = sortByCategory(e);
+    
+    
+    const container = document.querySelector("#tasks-container");
+    container.textContent = "";
+
+    if (e.target.id === "all") {
+        list.forEach((task) => {
+            displayTask(task);
+        })
+    } else if (e.target.id === "high-prio") {
+        const priorityTasks = sortByPriority();
+        priorityTasks.forEach((task) => {
+            displayTask(task);
+        })
+    }
+    else {
+        categoryTasks.forEach((task) => {
+            displayTask(task);
+        })
+    }
+
+    
+}
 // const FormValidation = (() => {
     
 //     const form = document.querySelector("form");
@@ -209,4 +264,4 @@ function resetForm() {
 
 
 
-export { resetForm, createDomEle, displayTask }
+export { resetForm, createDomEle, displayTask, displayCategory, addNewListener }
