@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { taskList, newTask, sortByCategory, sortByPriority} from './tasks';
+import { taskList, newTask, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted} from './tasks';
 
 
 function createDomEle(parent, type, attributes, text) {
@@ -47,39 +47,87 @@ const categoryListener = (() => {
 })();
 
 
+
+
+
 function displayTask(task) {
     const taskTitle = formatString(task.title);
     
-    createTaskcontainer(taskTitle);
-    addCheckbox(taskTitle);
+    // const taskDiv = document.querySelector(`#${task.title}`);
+    // console.log(taskDiv)
+
+    // if (checkboxChecked()) {
+    //     taskDiv.classList.add("completed");
+        
+    // } else {
+    //     taskDiv.classList.remove("completed");
+        
+    // }
+    
+    createTaskcontainer(task, taskTitle);
+    addCheckbox(task, taskTitle);
     addTitle(task, taskTitle);
     addDueDate(task, taskTitle);
     addPriority(task,taskTitle);
     addDescription(task, taskTitle);
-    addCategory(task, taskTitle);  
-    
+    addCategory(task, taskTitle);   
     
 }
 
-function createTaskcontainer(taskTitle) {
+function createTaskcontainer(task, taskTitle) {
     createDomEle("#tasks-container",
     "div",
     {class : ["task", taskTitle],   
-    id : `task-${taskTitle}`,     
-    });
+    id : taskTitle,     
+    });    
+
+    const taskDiv = document.querySelector(`#${taskTitle}`);
+    
+    if (task.completed) {
+        taskDiv.classList.add("completed");
+        
+    } else {
+        taskDiv.classList.remove("completed");
+        
+    }
 }
 
-function addCheckbox(taskTitle) {
-    createDomEle(`#task-${taskTitle}`,
+function addCheckbox(task, taskTitle) {
+    createDomEle(`#${taskTitle}`,
     "input",
     {type : "checkbox",
-    class : ["task-detail", "task-checkbox"],   
+    class : ["checkbox"],   
     id : `checkbox-${taskTitle}`,     
-    });
+    }); 
+
+    const checkbox = document.querySelector(`#checkbox-${taskTitle}`);   
+    if (task.completed) {
+        checkbox.checked = true;
+        
+    } else {
+        checkbox.checked = false;        
+    }
+
+    addNewListener(`#checkbox-${taskTitle}`, "click", toggleTask);
+
+    
+
+    // createDomEle(`#checkbox-div-${taskTitle}`,
+    // "input",
+    // {type : "checkbox",
+    // class : ["task-detail", "task-checkbox"],   
+    // id : `checkbox-${taskTitle}`,     
+    // });
+
+    // createDomEle(`#checkbox-div-${taskTitle}`,
+    // "label",
+    // { for : `checkbox-${taskTitle}`         
+    // });
 }
 
+
 function addTitle(task, taskTitle) {
-    createDomEle(`#task-${taskTitle}`,
+    createDomEle(`#${taskTitle}`,
     "div",
     {class : ["task-detail", "task-title"],   
     id : `title-${taskTitle}`},
@@ -87,7 +135,7 @@ function addTitle(task, taskTitle) {
 }
 
 function addDueDate(task, taskTitle) {
-    createDomEle(`#task-${taskTitle}`,
+    createDomEle(`#${taskTitle}`,
         "div",
         {class : ["task-detail", "task-dueDate"],   
         id : `dueDate-div-${taskTitle}`},
@@ -116,7 +164,7 @@ function addDueDate(task, taskTitle) {
 }
 
 function addPriority(task, taskTitle) {
-    createDomEle(`#task-${taskTitle}`,
+    createDomEle(`#${taskTitle}`,
     "div",
     {class : ["task-detail", "task-priority"],
     id : `priority-${taskTitle}` }
@@ -137,7 +185,7 @@ function addPriority(task, taskTitle) {
 }
 
 function addCategory(task, taskTitle) {
-    createDomEle(`#task-${taskTitle}`,
+    createDomEle(`#${taskTitle}`,
     "div",
     {class : ["task-detail", "task-category"],   
     id : `category-div-${taskTitle}`},
@@ -164,7 +212,7 @@ function addCategory(task, taskTitle) {
 }
 
 function addDescription(task, taskTitle) {
-    createDomEle(`#task-${taskTitle}`, 
+    createDomEle(`#${taskTitle}`, 
     "div",
     { class : ["task-detail", "task-description"],
     id : `description-${taskTitle}` },
@@ -202,58 +250,60 @@ function displayCategory(task) {
         capitalize(task.category)
         );
 
-        addNewListener(".task-li", "click", function(e) {
-          sortTasks(e);  
-        })
+        addNewListener(".task-li", "click", sortTasks)
     }
-    // } else {
-    //     console.log("not found");
-    // }
+    
 }
 
+function checkboxChecked() {
+    return event.target.checked
+}
 
-function sortTasks(e) {
+function toggleTask() {
+    const taskId = event.target.parentNode.id;
+    const taskDiv = document.querySelector(`#${taskId}`);
+    if (checkboxChecked()) {
+        taskDiv.classList.add("completed");
+        
+    } else {
+        taskDiv.classList.remove("completed");
+        
+    }
+
+   toggleCompleted(taskId)
+}
+
+function sortTasks() {
     const list = taskList.list;
-    const categoryTasks = sortByCategory(e);
+    const categoryTasks = sortByCategory();
+    const priorityTasks = sortByPriority();
+    const completedTasks = sortByCompleted();
     
     
     const container = document.querySelector("#tasks-container");
     container.textContent = "";
 
-    if (e.target.id === "all") {
+    if (event.target.id === "all") {
         list.forEach((task) => {
             displayTask(task);
         })
-    } else if (e.target.id === "high-prio") {
-        const priorityTasks = sortByPriority();
+    } else if (event.target.id === "high-prio") {        
         priorityTasks.forEach((task) => {
             displayTask(task);
         })
-    }
-    else {
+    } else if (event.target.id === "completed") {
+        completedTasks.forEach((task) => {
+            displayTask(task);
+        })
+    }  else {
         categoryTasks.forEach((task) => {
             displayTask(task);
         })
     }
-
+    
     
 }
-// const FormValidation = (() => {
-    
-//     const form = document.querySelector("form");
-//     const titleInput = document.querySelector("#task-title-input");
-//         form.onsubmit = function(){        
-//             if (titleInput.value != "") {        
-//                 newTask();
-                
-//                 verifyTask();
-//                 resetForm();
-//             } else {            
-//                 titleInput.classList.add("invalid")
-//                 alert("Enter task title");
-//             }
-//         }    
-// })();
+
 
 function resetForm() {
     const form = document.querySelector("form");

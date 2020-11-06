@@ -1,6 +1,6 @@
-const taskFactory = (title, category, dueDate, priority, description) => {
+const taskFactory = (title, category, dueDate, priority, description, completed = false) => {
 
-    return { title, category, dueDate, priority, description }
+    return { title, category, dueDate, priority, description, completed }
 }
 
 const taskList = (() => {
@@ -31,8 +31,33 @@ function taskIsValid(list, title) {
     
 }
 
-function sortByCategory(e) {
-    const cat = e.target.id;
+function toggleCompleted(id) {
+ const list = taskList.list;
+
+ list.forEach((task) => {   
+     if (task.title === id) {         
+         if (! task.completed) {
+             task.completed = true;             
+         } else {
+           task.completed = false;           
+         }          
+     }
+ })
+}
+
+function sortByCompleted() {
+    const list = taskList.list;
+    
+        const filteredList = list.filter(task => {
+         return task.completed === true;
+       });
+    
+       return filteredList;
+}
+
+
+function sortByCategory() {
+    const cat = event.target.id;
     const list = taskList.list;
     
         const filteredList = list.filter(task => {
@@ -55,4 +80,4 @@ function sortByPriority() {
 
 
 
-export { newTask, taskIsValid, taskList, sortByCategory, sortByPriority}
+export { newTask, taskIsValid, taskList, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted}

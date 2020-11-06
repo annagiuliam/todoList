@@ -30,6 +30,10 @@
     width: 100%;
 }
 
+.task.completed {
+text-decoration: line-through;
+}
+
  #task-title-input{    
     width: 75%;    
     box-sizing: border-box;
@@ -60,12 +64,16 @@ input {
     grid-template-columns: 5% 5% 30% 30% 1fr;
     grid-template-rows: auto;
     grid-template-areas: "checkbox prio title title date"
-                        ". . description description category"
+                        "checkbox prio description description category"
 }
 
-.task-checkbox {
+.checkbox {
     grid-area: checkbox;
-    justify-self: center;
+    justify-self: right;
+    
+    width: 15px;
+    height: 15px;
+    
 }
 
 .task-title {
@@ -79,6 +87,7 @@ input {
 .task-priority {
     grid-area: prio;
     justify-self: center;
+    
 }
 
 .task-description {
@@ -94,3 +103,6 @@ input {
     background-color: white;
 }
    
+
+  
+ 
