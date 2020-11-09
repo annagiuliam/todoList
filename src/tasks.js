@@ -78,6 +78,12 @@ function sortByPriority() {
        return filteredList;
 }
 
+function deleteTask(task) {
+    const list = taskList.list;
+    const taskIndex = list.indexOf(task);
+    list.splice(taskIndex, 1);
+    //console.log(list);
+}
 
 
-export { newTask, taskIsValid, taskList, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted}
+export { newTask, taskIsValid, taskList, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted, deleteTask}

@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { taskList, newTask, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted} from './tasks';
+import { taskList, newTask, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted, deleteTask} from './tasks';
 
 
 function createDomEle(parent, type, attributes, text) {
@@ -68,6 +68,7 @@ function displayTask(task) {
     addCheckbox(task, taskTitle);
     addTitle(task, taskTitle);
     addDueDate(task, taskTitle);
+    addEditBtn(task, taskTitle);
     addPriority(task,taskTitle);
     addDescription(task, taskTitle);
     addCategory(task, taskTitle);   
@@ -182,6 +183,56 @@ function addPriority(task, taskTitle) {
         {class : ["fa", "fa-exclamation-triangle"]},
         );
     }  
+}
+
+function addEditBtn(task, taskTitle) {
+    createDomEle(`#${taskTitle}`,
+    "div",
+    {class : ["edit-btn"],
+    id : `edit-btn-${taskTitle}` }
+    )
+
+    createDomEle(`#edit-btn-${taskTitle}`,
+    "i",
+    {class : ["task-icon", "fa", "fa-edit"],
+    id : `edit-icon-${taskTitle}` }
+    );
+
+    addNewListener(`#edit-btn-${taskTitle}`, "click", function() {
+        editTask(task, taskTitle);
+    })
+
+}
+
+function editTask(task, taskTitle) {
+    
+    
+    clearTaskDom(taskTitle);
+    fillForm(task);
+    deleteTask(task);
+}
+
+function clearTaskDom(taskTitle) {
+    const taskContainer = document.querySelector(`#${taskTitle}`);
+    taskContainer.parentNode.removeChild(taskContainer);
+}
+
+function fillForm(task) {
+    document.querySelector("#task-title-input").value = task.title;
+
+    if (task.dueDate != "") {
+        document.querySelector("#date-input").value = task.dueDate;        
+    }
+
+    if (task.category != "") {
+        document.querySelector("#category-input").value = task.category;
+    }
+
+    //RIPARTI DA QUI, INSERISCI PRIORITY VALUE
+
+    if (task.description != "") {
+        document.querySelector("textarea").value = task.description;
+    }
 }
 
 function addCategory(task, taskTitle) {

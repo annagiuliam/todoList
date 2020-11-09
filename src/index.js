@@ -25,12 +25,15 @@ function manageTask() {
     } else {
         list.push(task);
         displayTask(task);
-         displayCategory(task)
+        //console.log(list);
+        displayCategory(task)
         
     }
      
     resetForm(); 
 }
+
+
 
 
 
