@@ -61,10 +61,10 @@ input {
 
 .task {
     display : grid;
-    grid-template-columns: 5% 5% 30% 30% 1fr 1fr;
+    grid-template-columns: 5% 5% 40% 1fr 1fr;
     grid-template-rows: auto;
-    grid-template-areas: "checkbox prio title title date edit"
-                        "checkbox prio description description category delete"
+    grid-template-areas: "checkbox prio title date edit"
+                        "checkbox prio description  category delete"
 }
 
 .checkbox {
@@ -86,6 +86,12 @@ input {
 
 .edit-btn {
     grid-area : edit;
+    justify-self: center;
+}
+
+.delete-btn {
+    grid-area : delete;
+    justify-self: center;
 }
 
 .task-priority {
