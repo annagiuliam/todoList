@@ -1,6 +1,8 @@
+import {formatString} from "./dom"
+
 const taskFactory = (title, category, dueDate, priority, description, completed = false) => {
 
-    return { title, category, dueDate, priority, description, completed }
+    return { title, category, dueDate, priority, description, completed}
 }
 
 const taskList = (() => {
@@ -31,11 +33,12 @@ function taskIsValid(list, title) {
     
 }
 
-function toggleCompleted(id) {
+
+function toggleCompleted(divId) {
  const list = taskList.list;
 
  list.forEach((task) => {   
-     if (task.title === id) {         
+     if (formatString(task.title) === divId) {         
          if (! task.completed) {
              task.completed = true;             
          } else {
@@ -43,6 +46,7 @@ function toggleCompleted(id) {
          }          
      }
  })
+ 
 }
 
 function sortByCompleted() {
@@ -61,7 +65,7 @@ function sortByCategory() {
     const list = taskList.list;
     
         const filteredList = list.filter(task => {
-         return task.category === cat;
+         return formatString(task.category) === cat;
        });
     
        return filteredList;
@@ -82,8 +86,21 @@ function deleteTask(task) {
     const list = taskList.list;
     const taskIndex = list.indexOf(task);
     list.splice(taskIndex, 1);
-    //console.log(list);
+    console.log(list);
+}
+
+function deleteAllTasks() {    
+    taskList.list = [];
+   
+}
+
+function completeAllTasks() {
+    const list = taskList.list;
+    list.forEach((task) => {   
+        task.completed = true;
+    })
+    console.log(list);
 }
 
 
-export { newTask, taskIsValid, taskList, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted, deleteTask}
+export { newTask, taskIsValid, taskList, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted, deleteTask, deleteAllTasks, completeAllTasks}

@@ -25,7 +25,6 @@ function manageTask() {
     } else {
         list.push(task);
         displayTask(task);
-        //console.log(list);
         displayCategory(task)
         
     }

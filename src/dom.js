@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { taskList, newTask, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted, deleteTask} from './tasks';
+import { taskList, newTask, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted, deleteTask, deleteAllTasks, completeAllTasks} from './tasks';
 
 
 function createDomEle(parent, type, attributes, text) {
@@ -41,8 +41,20 @@ function addNewListener(target, event, action) {
 
 
 const categoryListener = (() => {
-    addNewListener("#all", "click", function(e) {
-        sortTasks(e);
+    addNewListener(".task-li", "click", sortTasks);
+})();
+
+const deleteAllListener = (() => {
+    addNewListener("#del-all-btn", "click", function() {
+        deleteAllTasks();
+        clearAllTasks();
+    })
+})();
+
+const completeAllListener = (() => {
+    addNewListener("#comp-all-btn", "click", function() {
+        completeAllTasks();
+        markAllTasks();
     })
 })();
 
@@ -71,7 +83,8 @@ function displayTask(task) {
     addEditBtn(task, taskTitle);
     addPriority(task,taskTitle);
     addDescription(task, taskTitle);
-    addCategory(task, taskTitle);   
+    addCategory(task, taskTitle); 
+    addDeleteBtn(task, taskTitle);  
     
 }
 
@@ -204,37 +217,6 @@ function addEditBtn(task, taskTitle) {
 
 }
 
-function editTask(task, taskTitle) {
-    
-    
-    clearTaskDom(taskTitle);
-    fillForm(task);
-    deleteTask(task);
-}
-
-function clearTaskDom(taskTitle) {
-    const taskContainer = document.querySelector(`#${taskTitle}`);
-    taskContainer.parentNode.removeChild(taskContainer);
-}
-
-function fillForm(task) {
-    document.querySelector("#task-title-input").value = task.title;
-
-    if (task.dueDate != "") {
-        document.querySelector("#date-input").value = task.dueDate;        
-    }
-
-    if (task.category != "") {
-        document.querySelector("#category-input").value = task.category;
-    }
-
-    //RIPARTI DA QUI, INSERISCI PRIORITY VALUE
-
-    if (task.description != "") {
-        document.querySelector("textarea").value = task.description;
-    }
-}
-
 function addCategory(task, taskTitle) {
     createDomEle(`#${taskTitle}`,
     "div",
@@ -270,6 +252,74 @@ function addDescription(task, taskTitle) {
     task.description);  
 }
 
+function addDeleteBtn(task, taskTitle) {
+    createDomEle(`#${taskTitle}`,
+    "div",
+    {class : ["delete-btn"],
+    id : `delete-btn-${taskTitle}` }
+    )
+
+    createDomEle(`#delete-btn-${taskTitle}`,
+    "i",
+    {class : ["task-icon", "fa", "fa-trash"],
+    id : `delete-icon-${taskTitle}` }
+    );
+
+    addNewListener(`#delete-btn-${taskTitle}`, "click", function() {
+        clearTaskDom(taskTitle);
+        deleteTask(task);
+    })
+
+}
+
+function editTask(task, taskTitle) {   
+    
+    clearTaskDom(taskTitle);
+    fillForm(task);
+    deleteTask(task);
+}
+
+function clearTaskDom(taskTitle) {
+    const taskContainer = document.querySelector(`#${taskTitle}`);
+    taskContainer.parentNode.removeChild(taskContainer);
+}
+
+function clearAllTasks() {
+    document.querySelector("#tasks-container").textContent = "";
+}
+
+function markAllTasks() {
+    const checkboxes = document.querySelectorAll(".checkbox");
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = true;
+    })
+
+    const taskList = document.querySelectorAll(".task");
+    taskList.forEach(taskDiv => {
+        taskDiv.classList.add("completed");
+    })    
+}
+
+function fillForm(task) {
+    document.querySelector("#task-title-input").value = task.title;
+
+    if (task.dueDate != "") {
+        document.querySelector("#date-input").value = task.dueDate;        
+    }
+
+    if (task.category != "") {
+        document.querySelector("#category-input").value = task.category;
+    }
+
+    if (task.priority != "default") {
+        document.querySelector("#priority-select").value = "High";
+    }
+    
+
+    if (task.description != "") {
+        document.querySelector("textarea").value = task.description;
+    }
+}
 
 function formatString(string) {
     if (string != "") {
@@ -293,7 +343,7 @@ function capitalize(string) {
 }
 
 function displayCategory(task) {
-    if ( task.category != "" && !document.querySelector(`#${task.category}`)) {
+    if ( task.category != "" && !document.querySelector(`#${formatString(task.category)}`)) {
         createDomEle("#tasks-list",
         "li",
         { class : ["task-li"],
@@ -339,9 +389,17 @@ function sortTasks() {
             displayTask(task);
         })
     } else if (event.target.id === "high-prio") {        
-        priorityTasks.forEach((task) => {
-            displayTask(task);
-        })
+        
+            if (priorityTasks.length === 0) {
+                console.log("hello");
+                displayGif()
+            } else {
+                priorityTasks.forEach((task) => {
+                displayTask(task);
+                })
+            }           
+            
+        
     } else if (event.target.id === "completed") {
         completedTasks.forEach((task) => {
             displayTask(task);
@@ -355,7 +413,12 @@ function sortTasks() {
     
 }
 
-
+function displayGif() {
+    createDomEle("#tasks-container",
+    "img",
+    { src : "./travolta.gif", // INSERT GIF
+    id : "travolta-gif"})
+}
 function resetForm() {
     const form = document.querySelector("form");
     form.reset();
@@ -365,4 +428,4 @@ function resetForm() {
 
 
 
-export { resetForm, createDomEle, displayTask, displayCategory, addNewListener }
+export { resetForm, createDomEle, displayTask, displayCategory, addNewListener, formatString }
