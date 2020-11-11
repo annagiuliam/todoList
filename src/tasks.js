@@ -37,7 +37,7 @@ function taskIsValid(list, title) {
 function toggleCompleted(divId) {
  const list = taskList.list;
 
- list.forEach((task) => {   
+ list.forEach(task => {   
      if (formatString(task.title) === divId) {         
          if (! task.completed) {
              task.completed = true;             
@@ -86,7 +86,6 @@ function deleteTask(task) {
     const list = taskList.list;
     const taskIndex = list.indexOf(task);
     list.splice(taskIndex, 1);
-    console.log(list);
 }
 
 function deleteAllTasks() {    
@@ -96,10 +95,9 @@ function deleteAllTasks() {
 
 function completeAllTasks() {
     const list = taskList.list;
-    list.forEach((task) => {   
+    list.forEach(task => {   
         task.completed = true;
     })
-    console.log(list);
 }
 
 

@@ -1,6 +1,7 @@
 
-import { resetForm, createDomEle, displayTask, displayCategory } from "./dom";
-import {newTask, taskIsValid, taskList, sortByCategory} from "./tasks"
+import { resetForm, addNewListener, displayTask, displayCategory, sortTasks, deleteAllTasks, clearAllTasks, completeAllTasks, markAllTasks } from "./dom";
+import {newTask, taskIsValid, taskList} from "./tasks"
+
 
 
 const FormValidation = (() => {
@@ -25,35 +26,31 @@ function manageTask() {
     } else {
         list.push(task);
         displayTask(task);
-        displayCategory(task)
+        displayCategory(task);
         
     }
      
     resetForm(); 
 }
 
+//event listeners
+const categoryListener = (() => {
+    addNewListener(".task-li", "click", sortTasks);
+})();
+
+const deleteAllListener = (() => {
+    addNewListener("#del-all-btn", "click", function() {
+        deleteAllTasks();
+        clearAllTasks();
+    })
+})();
 
 
+const completeAllListener = (() => {
+    addNewListener("#comp-all-btn", "click", function() {
+        completeAllTasks();
+        markAllTasks();
+    })
+})();
 
-
-
-//console.log(taskList.list);
-
-//const container = document.querySelector("#project-container")
-
-
-// format(new Date(2014, 1, 11), 'yyyy-MM-dd')
-// //=> '2014-02-11'
-
-// const dates = [
-//   new Date(1995, 6, 2),
-//   new Date(1987, 1, 11),
-//   new Date(1989, 6, 10),
-// ]
-// console.log(dates.sort(compareAsc));
-//=> [
-//   Wed Feb 11 1987 00:00:00,
-//   Mon Jul 10 1989 00:00:00,
-//   Sun Jul 02 1995 00:00:00
-// ]
 

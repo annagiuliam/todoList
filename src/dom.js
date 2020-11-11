@@ -1,7 +1,8 @@
 import { format } from 'date-fns';
-import { taskList, newTask, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted, deleteTask, deleteAllTasks, completeAllTasks} from './tasks';
+import { taskList, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted, deleteTask, deleteAllTasks, completeAllTasks} from './tasks';
+import Travolta from "./travolta.gif"
 
-
+// helper functions
 function createDomEle(parent, type, attributes, text) {
     const parentContainer = document.querySelector(parent);
     const element = document.createElement(type);
@@ -40,41 +41,11 @@ function addNewListener(target, event, action) {
 }
 
 
-const categoryListener = (() => {
-    addNewListener(".task-li", "click", sortTasks);
-})();
 
-const deleteAllListener = (() => {
-    addNewListener("#del-all-btn", "click", function() {
-        deleteAllTasks();
-        clearAllTasks();
-    })
-})();
-
-const completeAllListener = (() => {
-    addNewListener("#comp-all-btn", "click", function() {
-        completeAllTasks();
-        markAllTasks();
-    })
-})();
-
-
-
-
+// functions for task display
 
 function displayTask(task) {
     const taskTitle = formatString(task.title);
-    
-    // const taskDiv = document.querySelector(`#${task.title}`);
-    // console.log(taskDiv)
-
-    // if (checkboxChecked()) {
-    //     taskDiv.classList.add("completed");
-        
-    // } else {
-    //     taskDiv.classList.remove("completed");
-        
-    // }
     
     createTaskcontainer(task, taskTitle);
     addCheckbox(task, taskTitle);
@@ -124,19 +95,6 @@ function addCheckbox(task, taskTitle) {
 
     addNewListener(`#checkbox-${taskTitle}`, "click", toggleTask);
 
-    
-
-    // createDomEle(`#checkbox-div-${taskTitle}`,
-    // "input",
-    // {type : "checkbox",
-    // class : ["task-detail", "task-checkbox"],   
-    // id : `checkbox-${taskTitle}`,     
-    // });
-
-    // createDomEle(`#checkbox-div-${taskTitle}`,
-    // "label",
-    // { for : `checkbox-${taskTitle}`         
-    // });
 }
 
 
@@ -172,7 +130,6 @@ function addDueDate(task, taskTitle) {
         "span",
         {id : `dueDate-text-${taskTitle}` },
         formatDate(task.dueDate)
-        //task.dueDate
     );
     
 }
@@ -272,6 +229,7 @@ function addDeleteBtn(task, taskTitle) {
 
 }
 
+// edit button functions
 function editTask(task, taskTitle) {   
     
     clearTaskDom(taskTitle);
@@ -282,22 +240,6 @@ function editTask(task, taskTitle) {
 function clearTaskDom(taskTitle) {
     const taskContainer = document.querySelector(`#${taskTitle}`);
     taskContainer.parentNode.removeChild(taskContainer);
-}
-
-function clearAllTasks() {
-    document.querySelector("#tasks-container").textContent = "";
-}
-
-function markAllTasks() {
-    const checkboxes = document.querySelectorAll(".checkbox");
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = true;
-    })
-
-    const taskList = document.querySelectorAll(".task");
-    taskList.forEach(taskDiv => {
-        taskDiv.classList.add("completed");
-    })    
 }
 
 function fillForm(task) {
@@ -321,6 +263,137 @@ function fillForm(task) {
     }
 }
 
+// delete all button function
+function clearAllTasks() {
+    document.querySelector("#tasks-container").textContent = "";
+}
+
+// complete all button function
+
+function markAllTasks() {
+    const checkboxes = document.querySelectorAll(".checkbox");
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = true;
+    })
+
+    const taskList = document.querySelectorAll(".task");
+    taskList.forEach(taskDiv => {
+        taskDiv.classList.add("completed");
+    })    
+}
+
+
+// checkbox functions
+
+function checkboxChecked() {
+    return event.target.checked
+}
+
+function toggleTask() {
+    const taskId = event.target.parentNode.id;
+    const taskDiv = document.querySelector(`#${taskId}`);
+    if (checkboxChecked()) {
+        taskDiv.classList.add("completed");
+        
+    } else {
+        taskDiv.classList.remove("completed");
+        
+    }
+
+   toggleCompleted(taskId)
+}
+
+// sorting functions
+
+function displayCategory(task) {
+    if ( task.category != "" && !document.querySelector(`#${formatString(task.category)}`)) {
+        createDomEle("#tasks-list",
+        "li",
+        { class : ["task-li"],
+       id : formatString(task.category)},       
+        capitalize(task.category)
+        );
+
+        addNewListener(".task-li", "click", sortTasks)
+    }
+    
+}
+
+function sortTasks() {
+    const list = taskList.list;
+    const categoryTasks = sortByCategory();
+    const priorityTasks = sortByPriority();
+    const completedTasks = sortByCompleted();
+    
+    
+    const container = document.querySelector("#tasks-container");
+    container.textContent = "";
+
+    if (event.target.id === "all") {
+        if (list.length === 0) {           
+            noResultsMsg()
+        } else {
+            list.forEach(task => {
+            displayTask(task);
+            })
+        }  
+    } else if (event.target.id === "high-prio") {        
+        
+            if (priorityTasks.length === 0) {
+                noResultsMsg();
+            } else {
+                priorityTasks.forEach(task => {
+                displayTask(task);
+                })
+            }           
+            
+        
+    } else if (event.target.id === "completed") {
+        if (completedTasks.length === 0) {           
+            noResultsMsg()
+        } else {
+            completedTasks.forEach(task => {
+            displayTask(task);
+            })
+        }  
+    } else {
+        categoryTasks.forEach(task => {
+            displayTask(task)
+        })
+    }
+    
+    
+}
+
+function noResultsMsg() {
+
+    createDomEle("#tasks-container",
+    "div",
+    {  id : "nothing-found"},
+    )
+
+    createDomEle("#nothing-found",
+    "div",
+    {  id : "sorry-msg"},
+    "...sorry, no tasks found for this search...")
+  
+    createDomEle("#nothing-found",
+    "div",
+    {  id : "gif-container"})    
+
+    createDomEle("#gif-container",
+    "img",
+    { src : Travolta, 
+    id : "travolta-gif"})
+}
+
+//
+function resetForm() {
+    const form = document.querySelector("form");
+    form.reset();
+}
+
+// formatting functions
 function formatString(string) {
     if (string != "") {
         
@@ -342,90 +415,7 @@ function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function displayCategory(task) {
-    if ( task.category != "" && !document.querySelector(`#${formatString(task.category)}`)) {
-        createDomEle("#tasks-list",
-        "li",
-        { class : ["task-li"],
-       id : formatString(task.category)},       
-        capitalize(task.category)
-        );
-
-        addNewListener(".task-li", "click", sortTasks)
-    }
-    
-}
-
-function checkboxChecked() {
-    return event.target.checked
-}
-
-function toggleTask() {
-    const taskId = event.target.parentNode.id;
-    const taskDiv = document.querySelector(`#${taskId}`);
-    if (checkboxChecked()) {
-        taskDiv.classList.add("completed");
-        
-    } else {
-        taskDiv.classList.remove("completed");
-        
-    }
-
-   toggleCompleted(taskId)
-}
-
-function sortTasks() {
-    const list = taskList.list;
-    const categoryTasks = sortByCategory();
-    const priorityTasks = sortByPriority();
-    const completedTasks = sortByCompleted();
-    
-    
-    const container = document.querySelector("#tasks-container");
-    container.textContent = "";
-
-    if (event.target.id === "all") {
-        list.forEach((task) => {
-            displayTask(task);
-        })
-    } else if (event.target.id === "high-prio") {        
-        
-            if (priorityTasks.length === 0) {
-                console.log("hello");
-                displayGif()
-            } else {
-                priorityTasks.forEach((task) => {
-                displayTask(task);
-                })
-            }           
-            
-        
-    } else if (event.target.id === "completed") {
-        completedTasks.forEach((task) => {
-            displayTask(task);
-        })
-    }  else {
-        categoryTasks.forEach((task) => {
-            displayTask(task);
-        })
-    }
-    
-    
-}
-
-function displayGif() {
-    createDomEle("#tasks-container",
-    "img",
-    { src : "./travolta.gif", // INSERT GIF
-    id : "travolta-gif"})
-}
-function resetForm() {
-    const form = document.querySelector("form");
-    form.reset();
-}
 
 
 
-
-
-export { resetForm, createDomEle, displayTask, displayCategory, addNewListener, formatString }
+export { resetForm, displayTask, displayCategory, addNewListener, formatString, sortTasks, deleteAllTasks, clearAllTasks, completeAllTasks, markAllTasks}
