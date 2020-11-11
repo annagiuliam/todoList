@@ -225,8 +225,20 @@ function addDeleteBtn(task, taskTitle) {
     addNewListener(`#delete-btn-${taskTitle}`, "click", function() {
         clearTaskDom(taskTitle);
         deleteTask(task);
+        clearCategoryDom(task);
     })
 
+}
+
+function clearCategoryDom(task) {
+    const categoryList = sortByCategory();
+    const category = formatString(task.category);
+    console.log(category);
+    
+    // const catLi = document.querySelector(`#${category}`)
+    // if (categoryList.length === 0) {
+    //     catLi.parentNode.removeChild(catLi);
+    // }
 }
 
 // edit button functions
@@ -314,12 +326,14 @@ function displayCategory(task) {
         capitalize(task.category)
         );
 
-        addNewListener(".task-li", "click", sortTasks)
+        addNewListener(".task-li", "click", function() {
+            sortTasks() // delete category when deleting task!!!
+        })
     }
     
 }
 
-function sortTasks() {
+function sortTasks(task) {
     const list = taskList.list;
     const categoryTasks = sortByCategory();
     const priorityTasks = sortByPriority();
