@@ -62,7 +62,8 @@ function sortByCompleted() {
 
 function sortByCategory() {
     const cat = event.target.id;
-    const list = taskList.list;
+    const list = taskList.list; 
+      
     
         const filteredList = list.filter(task => {
          return formatString(task.category) === cat;
@@ -70,6 +71,16 @@ function sortByCategory() {
     
        return filteredList;
    
+}
+
+function categoryItems(cat) {
+    const list = taskList.list;       
+    
+        const filteredList = list.filter(task => {
+         return formatString(task.category) === cat;
+       });
+       
+       return filteredList.length;
 }
 
 function sortByPriority() {
@@ -101,4 +112,4 @@ function completeAllTasks() {
 }
 
 
-export { newTask, taskIsValid, taskList, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted, deleteTask, deleteAllTasks, completeAllTasks}
+export { newTask, taskIsValid, taskList, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted, deleteTask, deleteAllTasks, completeAllTasks, categoryItems}

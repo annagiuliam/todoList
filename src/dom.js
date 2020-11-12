@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { taskList, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted, deleteTask, deleteAllTasks, completeAllTasks} from './tasks';
+import { taskList, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted, deleteTask, deleteAllTasks, completeAllTasks, categoryItems} from './tasks';
 import Travolta from "./travolta.gif"
 
 // helper functions
@@ -230,23 +230,24 @@ function addDeleteBtn(task, taskTitle) {
 
 }
 
+// delete btn function
 function clearCategoryDom(task) {
-    const categoryList = sortByCategory();
-    const category = formatString(task.category);
-    console.log(category);
+    const numItems = categoryItems(task.category);
+    const category = formatString(task.category);    
     
-    // const catLi = document.querySelector(`#${category}`)
-    // if (categoryList.length === 0) {
-    //     catLi.parentNode.removeChild(catLi);
-    // }
+    const catLi = document.querySelector(`#${category}`)
+    if (numItems < 1) {
+        catLi.parentNode.removeChild(catLi);
+    }
 }
 
 // edit button functions
 function editTask(task, taskTitle) {   
     
-    clearTaskDom(taskTitle);
+    clearTaskDom(taskTitle);    
     fillForm(task);
     deleteTask(task);
+    clearCategoryDom(task);
 }
 
 function clearTaskDom(taskTitle) {
@@ -278,6 +279,12 @@ function fillForm(task) {
 // delete all button function
 function clearAllTasks() {
     document.querySelector("#tasks-container").textContent = "";
+
+    const catLi = document.querySelectorAll(".cat-li");
+   catLi.forEach(ele => {
+       ele.parentNode.removeChild(ele);
+   })
+    
 }
 
 // complete all button function
@@ -321,24 +328,24 @@ function displayCategory(task) {
     if ( task.category != "" && !document.querySelector(`#${formatString(task.category)}`)) {
         createDomEle("#tasks-list",
         "li",
-        { class : ["task-li"],
+        { class : ["task-li", "cat-li"],
        id : formatString(task.category)},       
         capitalize(task.category)
         );
 
         addNewListener(".task-li", "click", function() {
-            sortTasks() // delete category when deleting task!!!
+            sortTasks(task) 
         })
     }
     
 }
 
 function sortTasks(task) {
+    
     const list = taskList.list;
     const categoryTasks = sortByCategory();
     const priorityTasks = sortByPriority();
     const completedTasks = sortByCompleted();
-    
     
     const container = document.querySelector("#tasks-container");
     container.textContent = "";
