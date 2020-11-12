@@ -1,22 +1,42 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    background-color: #edf6f9;
+}
 #app-container {
     display: flex;
     flex-direction: row;
-    justify-items: left;
-    align-items: baseline;
+    justify-items: flex-start;
+    align-items: flex-start;
+    height: 100%;
+}
+
+
+
+#sidebar { 
+    background-color:#457b9d;
+    width: 20%;
+    height: 100%;
+    font-size: large;
+    padding: 10px;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    
+    
 }
 
 .header {
- background-color: aqua;
-}
-
-#list-container {
-    background-color: yellowgreen;
-}
-
-#sidebar { 
-    background-color: teal;
-    width: 20%;
-    font-size: large;
+    justify-content: center;
+    display: flex;
 }
 
 #new-task-input {    
@@ -24,23 +44,30 @@
     flex-direction: row;
     justify-content: center;
     margin-bottom: 35px;
+   
+}
+
+#form-container {
+    background-color: #b6cbd8;
+    margin: 15px;
+    padding: 15px;
+    border-radius: 5%;
+    box-shadow: 20px 20px 20px 10px grey;
+
 }
 
 input, textarea {
     border-radius: 5%;
     margin: 5px;
     padding: 5px;
+    white-space: pre-wrap;
 }
 
 .task-title {
     font-weight: bold;
 }
 
-#container {
-    
-    background-color: thistle;
-    width: 80%;
-}
+
 
 #collective-btns {
     display: flex;
@@ -52,13 +79,6 @@ input, textarea {
     margin: 10px;
 }
 
-#tasks-container {
-    background-color: tomato;
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-    width: 100%;
-}
 
 .task.completed {
 text-decoration: line-through;
@@ -73,34 +93,40 @@ text-decoration: line-through;
     border: 1px solid red;
   }
 
-  
-textarea {
-    white-space: pre-wrap;
+#tasks-container {
+   
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 40px;
+    width: 50%;
+    
 }
-
-input {
-    white-space: pre-wrap;
-}
-  
-
-  
-.dueDate-icon-span, .category-icon-span {
-      margin-right: 10px;
-      margin-left: 10px;
-}
+ 
 
 .task {
+    margin: 0 auto;
     display : grid;
-    grid-template-columns: 5% 5% 40% 1fr 1fr;
+    width: 100%;
+    grid-template-columns: 25px 25px 50% 150px 50px;
     grid-template-rows: auto;
     grid-template-areas: "checkbox prio title date edit"
-                        "checkbox prio description  category delete"
+                        "checkbox prio description  category delete";
+    background-color: #457b9d;
+    margin: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 10px;
+    border-radius: 15px;
+    color: #EEEEEE;
+    
+    
+    
 }
 
 .checkbox {
     grid-area: checkbox;
-    justify-self: right;
-    
+    justify-self: right;   
     width: 15px;
     height: 15px;
     
@@ -108,34 +134,64 @@ input {
 
 .task-title {
     grid-area: title;
+   
 }
 
 .task-dueDate {
     grid-area : date;
+    
 }
+
+.dueDate-icon-span, .category-icon-span {
+    margin-right: 10px;
+    margin-left: 10px;
+    
+}
+
 
 .edit-btn {
     grid-area : edit;
     justify-self: center;
+    
+}
+
+.fa-edit, .fa-trash {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+   
+    text-align: center;
+    padding: 8px; 
+    
+}
+.fa-edit:hover, .fa-trash:hover {
+    cursor : pointer;
+    background-color: white;
+    color:#457b9d;
 }
 
 .delete-btn {
     grid-area : delete;
     justify-self: center;
+    font-size: 22px;
+    
 }
 
 .task-priority {
     grid-area: prio;
     justify-self: center;
     
+    
 }
 
 .task-description {
     grid-area: description;
+    
 }
 
 .task-category {
     grid-area : category;
+    
 }
 
 .task-li {
@@ -144,7 +200,7 @@ input {
 
 .task-li:hover {
     cursor : pointer;
-    background-color: white;
+    text-decoration: underline;
 }
 
 #nothing-found {

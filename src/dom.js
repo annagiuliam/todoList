@@ -233,12 +233,18 @@ function addDeleteBtn(task, taskTitle) {
 // delete btn function
 function clearCategoryDom(task) {
     const numItems = categoryItems(task.category);
-    const category = formatString(task.category);    
+    const category = formatString(task.category);  
+      
     
-    const catLi = document.querySelector(`#${category}`)
-    if (numItems < 1) {
-        catLi.parentNode.removeChild(catLi);
+    if (task.category != "") {
+        if (numItems < 1) {  
+            const catLi = document.querySelector(`#${category}`);      
+            catLi.parentNode.removeChild(catLi);
+        }
     }
+    
+    
+    
 }
 
 // edit button functions
@@ -280,7 +286,7 @@ function fillForm(task) {
 function clearAllTasks() {
     document.querySelector("#tasks-container").textContent = "";
 
-    const catLi = document.querySelectorAll(".cat-li");
+    const catLi = document.querySelectorAll(".cat-li"); 
    catLi.forEach(ele => {
        ele.parentNode.removeChild(ele);
    })

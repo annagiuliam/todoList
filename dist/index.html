@@ -28,50 +28,54 @@
 
         <div id="container">
             <div class="header">
-                <h2>This is the right side container</h2>
+                <h2>Add a new task here</h2>
             </div>
             <div id="new-task-input"> 
-                <form action="#" name="task-form">     
-                    <div id="new-task-field">
-                        <input type="text" placeholder="Add Task Title" id="task-title-input">
-                        <span class="error" aria-live="polite"></span>            
-                        <!-- <button type="button" value="submit" id="form-submit">Submit</button> -->
+                <div id="form-container">
+                    <form action="#" name="task-form">     
+                        <div id="new-task-field">
+                            <input type="text" placeholder="Add Task Title" id="task-title-input">
+                            <span class="error" aria-live="polite"></span>            
+                            
+                            
+                        </div>                     
+                        <div id="new-task-options">
+                            <input  type="date" min="2020-10-27" class="input-date" id="date-input">
+                            <input type="text" placeholder="Add category" id="category-input"> 
+                            Priority:  <select class="input" id="priority-select"> 
+                                <option value="Default" selected="true">Default</option>
+                                
+                                <option value="High">High</option>
+                            </select>
+                            
+                        </div>  
+                        <div id="description-field">
+                            <textarea class="textarea" rows="6" placeholder="Add a description"></textarea>
+                        </div> 
                         
-                    </div>                     
-                    <div id="new-task-options">
-                        <input  type="date" min="2020-10-27" class="input-date" id="date-input">
-                        <input type="text" placeholder="Add category" id="category-input"> 
-                        Priority:  <select class="input" id="priority-select"> 
-                            <option value="Default" selected="true">Default</option>
-                            <!-- <option value="Low">Low</option>
-                            <option value="Medium">Medium</option> -->
-                            <option value="High">High</option>
-                        </select>
-                        
-                    </div>  
-                    <div id="description-field">
-                        <textarea class="textarea" rows="6" placeholder="Add a description"></textarea>
-                    </div> 
-                    
-                    <div id="new-task-btns">
-                        <button type="submit" id="submit-task-btn">
-                            <i class="fa fa-check"></i>
-                        </button>
-                        
-                        <button type="reset" id="reset-btn">
-                            <i class="fa fa-refresh" aria-hidden="true"></i>
-                        </button>
+                        <div id="new-task-btns">
+                            <button type="submit" id="submit-task-btn">
+                                <i class="fa fa-check"></i>
+                            </button>
+                            
+                            <button type="reset" id="reset-btn">
+                                <i class="fa fa-refresh" aria-hidden="true"></i>
+                            </button>
+                      </form>
                     </div>
-                </form>                
+                </div>                
                 
             </div>
             <div id="collective-btns">
                 <button type="button" class="coll-btn" id="del-all-btn">Delete all tasks</button>
                 <button type="button" class="coll-btn" id="comp-all-btn">Complete all tasks</button>
             </div>
-            <div id="tasks-container">
             
+            <div id="tasks-container">
+        
             </div>
+            
+            
 
         </div>
         
