@@ -23,6 +23,9 @@ const newTask = () => {
     
 }
 
+function importLocalTasks(localList) {
+
+}
 
 function taskIsValid(list, title) {  
     if (list.length === 0) {     

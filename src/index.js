@@ -1,6 +1,28 @@
 
 import { resetForm, addNewListener, displayTask, displayCategory, sortTasks, deleteAllTasks, clearAllTasks, completeAllTasks, markAllTasks } from "./dom";
 import {newTask, taskIsValid, taskList} from "./tasks"
+import {saveToLocal, getFromLocal} from "./localStorage"
+
+const displayLocalTasks = (() => {
+    const localList = getFromLocal();
+    let list = taskList.list   
+    console.log(list);
+    if (localList) {
+        if (localList.length > 0) {
+            localList.forEach(localTask => {
+                list.push(localTask);
+            })
+            console.log(list);
+
+            list.forEach(task => {
+                displayTask(task);
+                displayCategory(task);
+            });
+        }
+    }
+
+    
+})();
 
 
 
@@ -27,7 +49,9 @@ function manageTask() {
         list.push(task);
         displayTask(task);
         displayCategory(task);
-        
+        console.log(list);
+        saveToLocal(list);
+       
     }
      
     resetForm(); 
@@ -41,6 +65,7 @@ const categoryListener = (() => {
 const deleteAllListener = (() => {
     addNewListener("#del-all-btn", "click", function() {
         deleteAllTasks();
+        saveToLocal(taskList.list);
         clearAllTasks();
     })
 })();
@@ -49,6 +74,7 @@ const deleteAllListener = (() => {
 const completeAllListener = (() => {
     addNewListener("#comp-all-btn", "click", function() {
         completeAllTasks();
+        saveToLocal(taskList.list);
         markAllTasks();
     })
 })();

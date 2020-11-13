@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 import { taskList, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted, deleteTask, deleteAllTasks, completeAllTasks, categoryItems} from './tasks';
 import Travolta from "./travolta.gif"
+import {saveToLocal} from "./localStorage"
 
 // helper functions
 function createDomEle(parent, type, attributes, text) {
@@ -225,6 +226,7 @@ function addDeleteBtn(task, taskTitle) {
     addNewListener(`#delete-btn-${taskTitle}`, "click", function() {
         clearTaskDom(taskTitle);
         deleteTask(task);
+        saveToLocal(taskList.list);
         clearCategoryDom(task);
     })
 
@@ -253,6 +255,7 @@ function editTask(task, taskTitle) {
     clearTaskDom(taskTitle);    
     fillForm(task);
     deleteTask(task);
+    saveToLocal(taskList.list);
     clearCategoryDom(task);
 }
 
@@ -326,6 +329,7 @@ function toggleTask() {
     }
 
    toggleCompleted(taskId)
+   saveToLocal(taskList.list);
 }
 
 // sorting functions
