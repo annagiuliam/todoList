@@ -1,4 +1,4 @@
-import {formatString} from "./dom"
+import {formatString} from "./formatting"
 
 const taskFactory = (title, category, dueDate, priority, description, completed = false) => {
 

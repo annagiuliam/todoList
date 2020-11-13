@@ -1,18 +1,18 @@
 
-import { resetForm, addNewListener, displayTask, displayCategory, sortTasks, deleteAllTasks, clearAllTasks, completeAllTasks, markAllTasks } from "./dom";
+import { resetForm, addNewListener,  displayCategory, sortTasks, deleteAllTasks, clearAllTasks, completeAllTasks, markAllTasks } from "./dom";
+import { displayTask } from "./taskDisplay"
 import {newTask, taskIsValid, taskList} from "./tasks"
 import {saveToLocal, getFromLocal} from "./localStorage"
+
 
 const displayLocalTasks = (() => {
     const localList = getFromLocal();
     let list = taskList.list   
-    console.log(list);
     if (localList) {
         if (localList.length > 0) {
             localList.forEach(localTask => {
                 list.push(localTask);
             })
-            console.log(list);
 
             list.forEach(task => {
                 displayTask(task);
@@ -49,7 +49,6 @@ function manageTask() {
         list.push(task);
         displayTask(task);
         displayCategory(task);
-        console.log(list);
         saveToLocal(list);
        
     }

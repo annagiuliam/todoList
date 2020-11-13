@@ -1,7 +1,9 @@
-import { format } from 'date-fns';
+
 import { taskList, sortByCategory, sortByPriority, toggleCompleted, sortByCompleted, deleteTask, deleteAllTasks, completeAllTasks, categoryItems} from './tasks';
 import Travolta from "./travolta.gif"
 import {saveToLocal} from "./localStorage"
+import {formatString, capitalize } from "./formatting"
+import { displayTask } from "./taskDisplay"
 
 // helper functions
 function createDomEle(parent, type, attributes, text) {
@@ -41,196 +43,6 @@ function addNewListener(target, event, action) {
     
 }
 
-
-
-// functions for task display
-
-function displayTask(task) {
-    const taskTitle = formatString(task.title);
-    
-    createTaskcontainer(task, taskTitle);
-    addCheckbox(task, taskTitle);
-    addTitle(task, taskTitle);
-    addDueDate(task, taskTitle);
-    addEditBtn(task, taskTitle);
-    addPriority(task,taskTitle);
-    addDescription(task, taskTitle);
-    addCategory(task, taskTitle); 
-    addDeleteBtn(task, taskTitle);  
-    
-}
-
-function createTaskcontainer(task, taskTitle) {
-    createDomEle("#tasks-container",
-    "div",
-    {class : ["task", taskTitle],   
-    id : taskTitle,     
-    });    
-
-    const taskDiv = document.querySelector(`#${taskTitle}`);
-    
-    if (task.completed) {
-        taskDiv.classList.add("completed");
-        
-    } else {
-        taskDiv.classList.remove("completed");
-        
-    }
-}
-
-function addCheckbox(task, taskTitle) {
-    createDomEle(`#${taskTitle}`,
-    "input",
-    {type : "checkbox",
-    class : ["checkbox"],   
-    id : `checkbox-${taskTitle}`,     
-    }); 
-
-    const checkbox = document.querySelector(`#checkbox-${taskTitle}`);   
-    if (task.completed) {
-        checkbox.checked = true;
-        
-    } else {
-        checkbox.checked = false;        
-    }
-
-    addNewListener(`#checkbox-${taskTitle}`, "click", toggleTask);
-
-}
-
-
-function addTitle(task, taskTitle) {
-    createDomEle(`#${taskTitle}`,
-    "div",
-    {class : ["task-detail", "task-title"],   
-    id : `title-${taskTitle}`},
-    capitalize(task.title));
-}
-
-function addDueDate(task, taskTitle) {
-    createDomEle(`#${taskTitle}`,
-        "div",
-        {class : ["task-detail", "task-dueDate"],   
-        id : `dueDate-div-${taskTitle}`},
-    );
-
-    createDomEle(`#dueDate-div-${taskTitle}`,
-        "span",
-        {class : ["dueDate-icon-span"],
-        id : `dueDate-icon-span-${taskTitle}` },
-    );
-
-    if (task.dueDate != "") { 
-        createDomEle(`#dueDate-icon-span-${taskTitle}`,
-            "i",
-            {class : ["fa", "fa-calendar"]},
-        );
-    }    
-
-    createDomEle(`#dueDate-div-${taskTitle}`,
-        "span",
-        {id : `dueDate-text-${taskTitle}` },
-        formatDate(task.dueDate)
-    );
-    
-}
-
-function addPriority(task, taskTitle) {
-    createDomEle(`#${taskTitle}`,
-    "div",
-    {class : ["task-detail", "task-priority"],
-    id : `priority-${taskTitle}` }
-    );
-
-    if (task.priority === "high") {
-        createDomEle(`#priority-${taskTitle}`,
-        "span",
-        {class : ["priority-icon-span"],
-        id : `priority-icon-span-${taskTitle}` },
-        );
-
-        createDomEle(`#priority-icon-span-${taskTitle}`,
-        "i",
-        {class : ["fa", "fa-exclamation-triangle"]},
-        );
-    }  
-}
-
-function addEditBtn(task, taskTitle) {
-    createDomEle(`#${taskTitle}`,
-    "div",
-    {class : ["edit-btn"],
-    id : `edit-btn-${taskTitle}` }
-    )
-
-    createDomEle(`#edit-btn-${taskTitle}`,
-    "i",
-    {class : ["task-icon", "fa", "fa-edit"],
-    id : `edit-icon-${taskTitle}` }
-    );
-
-    addNewListener(`#edit-btn-${taskTitle}`, "click", function() {
-        editTask(task, taskTitle);
-    })
-
-}
-
-function addCategory(task, taskTitle) {
-    createDomEle(`#${taskTitle}`,
-    "div",
-    {class : ["task-detail", "task-category"],   
-    id : `category-div-${taskTitle}`},
-    );
-
-    createDomEle(`#category-div-${taskTitle}`,
-    "span",
-    {class : ["category-icon-span"],
-    id : `category-icon-span-${taskTitle}` },
-    );
-
-    if (task.category != "") {   
-        createDomEle(`#category-icon-span-${taskTitle}`,
-        "i",
-        {class : ["fa", "fa-tag"]},
-        );
-    }  
-
-    createDomEle(`#category-div-${taskTitle}`,
-    "span",
-    {id : `category-text-${taskTitle}` },
-    capitalize(task.category)
-    );
-}
-
-function addDescription(task, taskTitle) {
-    createDomEle(`#${taskTitle}`, 
-    "div",
-    { class : ["task-detail", "task-description"],
-    id : `description-${taskTitle}` },
-    task.description);  
-}
-
-function addDeleteBtn(task, taskTitle) {
-    createDomEle(`#${taskTitle}`,
-    "div",
-    {class : ["delete-btn"],
-    id : `delete-btn-${taskTitle}` }
-    )
-
-    createDomEle(`#delete-btn-${taskTitle}`,
-    "i",
-    {class : ["task-icon", "fa", "fa-trash"],
-    id : `delete-icon-${taskTitle}` }
-    );
-
-    addNewListener(`#delete-btn-${taskTitle}`, "click", function() {
-        clearTaskDom(taskTitle);
-        deleteTask(task);
-        saveToLocal(taskList.list);
-        clearCategoryDom(task);
-    })
-
-}
 
 // delete btn function
 function clearCategoryDom(task) {
@@ -418,35 +230,13 @@ function noResultsMsg() {
     id : "travolta-gif"})
 }
 
-//
 function resetForm() {
     const form = document.querySelector("form");
     form.reset();
 }
 
-// formatting functions
-function formatString(string) {
-    if (string != "") {
-        
-        return string.split(/\W+/).join('');
-    } else { return ""};
-  
-}
-
-function formatDate(date) {
-    if (date != "") {
-        const dateInfo = date.split("-");
-        const formDate = format(new Date(dateInfo[0], dateInfo[1] - 1, dateInfo[2]), "PP");
-        return formDate;
-    }
-    
-}
-
-function capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 
 
 
-export { resetForm, displayTask, displayCategory, addNewListener, formatString, sortTasks, deleteAllTasks, clearAllTasks, completeAllTasks, markAllTasks}
+export { createDomEle, resetForm, editTask, displayCategory, addNewListener, toggleTask, sortTasks, deleteAllTasks, clearTaskDom, clearCategoryDom, clearAllTasks, completeAllTasks, markAllTasks}

@@ -2,7 +2,6 @@ import {taskList} from "./tasks"
 
 
 function saveToLocal(list) {
-    //const list = taskList.list;
     localStorage.setItem('localList', JSON.stringify(list));
 }
 
